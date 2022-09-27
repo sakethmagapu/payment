@@ -1,50 +1,17 @@
-const express = require("express");
-const shortid = require("shortid");
-const cors = require("cors");
-const Razorpay = require("razorpay");
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
 
-const app = express();
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
 
-
-
-// Intitializing razorpay credentials
-
-var razorpay = new Razorpay({
-    key_id:"rzp_test_SBgOFlrZLKHqwR",
-    key_secret:"qTt0GgaXW0iabTMaG6T5uEFt"
-});
-
-app.use(cors('*'));
-
-app.post("/razorpay", async (req,res)=>{
-    const payment_capture = 1;
-    const amount = 5;
-    const currency = "INR";
-
-    const options = {
-    amount: amount * 100,  // amount in the smallest currency unit
-    currency: currency,
-    receipt: shortid.generate(),
-    payment_capture
-    };
-
-    try {
-        const response = await razorpay.orders.create(options);
-        console.log(response);
-        res.json({
-            id : response.id,
-            currency : res.currency,
-            amount : res.amount
-        });
-     }
-    catch (eror){
-            console.log(error);
-     };
-});
-
-
-
-  
-app.listen(8000, ()=>{
-    console.log("server is running..")
-})
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
